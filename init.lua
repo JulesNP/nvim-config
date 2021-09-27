@@ -86,7 +86,10 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 
 -- Disable line numbers in terminal
-vim.api.nvim_exec([[autocmd TermOpen * setlocal nonumber norelativenumber nobuflisted]], false)
+vim.api.nvim_exec([[autocmd TermOpen * setlocal nonumber norelativenumber nobuflisted signcolumn=auto]], false)
+
+-- Disable sign column in help
+vim.api.nvim_exec([[autocmd FileType help setlocal signcolumn=auto]], false)
 
 --Decrease update time
 vim.o.updatetime = 250
@@ -166,6 +169,12 @@ vim.g.indent_blankline_show_trailing_blankline_indent = false
 -- CHADTree
 vim.api.nvim_set_keymap('n', '<leader>v', [[<cmd>CHADopen<CR>]], { noremap = true, silent = true })
 vim.g.chadtree_settings = { ['theme.text_colour_set'] = 'nerdtree_syntax_dark' }
+
+-- My convenience mappings
+vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', 'y', 'ygv<Esc>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>', { silent = true })
 
 -- require 'ionide'.setup{}
 
