@@ -56,6 +56,9 @@ vim.o.inccommand = 'nosplit'
 --Set highlight on search
 vim.o.hlsearch = false
 
+--Add relative numbers
+vim.wo.relativenumber = true
+
 --Make line numbers default
 vim.wo.number = true
 
@@ -64,6 +67,9 @@ vim.o.hidden = true
 
 --Enable mouse mode
 vim.o.mouse = 'a'
+
+-- Keep 8 lines above/below cursor
+vim.o.scrolloff = 5
 
 --Enable break indent
 vim.o.breakindent = true
@@ -166,6 +172,7 @@ vim.g.indent_blankline_buftype_exclude = { 'terminal', 'nofile' }
 vim.g.indent_blankline_char_highlight = 'LineNr'
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 vim.g.indent_blankline_show_current_context = true
+vim.g.indent_blankline_use_treesitter = true
 
 -- CHADTree
 vim.api.nvim_set_keymap('n', '<leader>v', [[<cmd>CHADopen<CR>]], { noremap = true, silent = true })
