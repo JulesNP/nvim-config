@@ -28,7 +28,7 @@ require('packer').startup(function()
   -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use 'joshdick/onedark.vim' -- Theme inspired by Atom
-  use 'morhetz/gruvbox'
+  use 'gruvbox-community/gruvbox'
   -- A blazing fast and easy to configure neovim statusline written in pure lua
   use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true} }
   -- Add indentation guides even on blank lines
