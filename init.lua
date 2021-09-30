@@ -124,7 +124,9 @@ vim.o.termguicolors = true
 vim.g.onedark_terminal_italics = 2
 vim.g.gruvbox_italic = 1
 vim.cmd [[colorscheme gruvbox]]
-if not vim.g.started_by_firenvim then
+if vim.g.started_by_firenvim then
+  vim.o.guifont = 'Iosevka Term:h14'
+else
   vim.cmd [[au VimEnter * highlight Normal guibg=0]]
 end
 
@@ -141,7 +143,9 @@ require'lualine'.setup {
     lualine_a = {'mode'},
     lualine_b = {'branch'},
     lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_x = {
+      {'diagnostics', sources = {'nvim_lsp'}},
+      'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
@@ -340,8 +344,6 @@ local function setup_servers()
   require'lspinstall'.setup()
   local servers = require'lspinstall'.installed_servers()
   for _, server in pairs(servers) do
-    local opts = {
-    }
     require'lspconfig'[server].setup{
       on_attach = on_attach,
       capabilities = capabilities,
