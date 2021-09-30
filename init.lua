@@ -22,6 +22,7 @@ require('packer').startup(function()
   use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
   use 'tpope/vim-repeat' -- enable repeating supported plugin maps with "."
+  use 'tpope/vim-speeddating' -- use CTRL-A/CTRL-X to increment dates, times, and more
   use 'tpope/vim-surround' -- quoting/parenthesizing made simple
   use 'tpope/vim-unimpaired' -- Pairs of handy bracket mappings
   use 'ludovicchabant/vim-gutentags' -- Automatic tags management
@@ -197,6 +198,8 @@ vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', 'y', 'ygv<Esc>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>', { silent = true })
+vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true })
+vim.api.nvim_set_keymap('i', 'kj', '<Esc>', { noremap = true })
 
 -- Autopairs setup
 require('nvim-autopairs').setup{}
