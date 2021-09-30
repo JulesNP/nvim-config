@@ -125,7 +125,7 @@ vim.g.onedark_terminal_italics = 2
 vim.g.gruvbox_italic = 1
 vim.cmd [[colorscheme gruvbox]]
 if vim.g.started_by_firenvim then
-  vim.o.guifont = 'Iosevka Term:h14'
+  vim.o.guifont = 'Iosevka Term:h12'
 else
   vim.cmd [[au VimEnter * highlight Normal guibg=0]]
 end
@@ -393,7 +393,8 @@ require'lspinstall'.post_install_hook = function ()
 end
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = 'menuone,noinsert,noselect,preview'
+vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 
 -- luasnip setup
 local luasnip = require 'luasnip'
