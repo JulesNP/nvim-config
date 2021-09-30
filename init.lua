@@ -65,6 +65,9 @@ vim.o.title = true
 -- Clipboard support
 vim.o.clipboard = 'unnamedplus'
 
+-- Automatically load file changes from disk
+vim.o.autoread = true
+
 -- True color support
 vim.o.termguicolors = true
 
