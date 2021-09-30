@@ -52,11 +52,6 @@ require('packer').startup(function()
   use 'ms-jpq/chadtree' -- File Manager for Neovim, Better than NERDTree
   use 'justinmk/vim-sneak' -- The missing motion for Vim 👟
   use 'windwp/nvim-autopairs' -- A super powerful autopair for Neovim. It supports multiple characters.
-  use {
-      'glacambre/firenvim',
-      run = function() vim.fn['firenvim#install'](0) end
-  }
-  -- use { 'ionide/Ionide-vim', run = 'make fsautocomplete' }
 end)
 
 -- Show title
@@ -124,11 +119,6 @@ vim.o.termguicolors = true
 vim.g.onedark_terminal_italics = 2
 vim.g.gruvbox_italic = 1
 vim.cmd [[colorscheme gruvbox]]
-if vim.g.started_by_firenvim then
-  vim.o.guifont = 'Iosevka Term:h14'
-else
-  vim.cmd [[au VimEnter * highlight Normal guibg=0]]
-end
 
 --Set statusbar
 require'lualine'.setup {
