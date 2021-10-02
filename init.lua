@@ -90,7 +90,7 @@ vim.o.hidden = true
 vim.o.mouse = 'a'
 
 -- Keep 8 lines above/below cursor
-vim.o.scrolloff = 5
+vim.o.scrolloff = 3
 
 --Enable break indent
 vim.o.breakindent = true
