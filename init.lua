@@ -122,14 +122,19 @@ vim.api.nvim_exec([[autocmd FileType help setlocal signcolumn=auto]], false)
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
+-- Set font if running in firenvim
+if vim.g.started_by_firenvim then
+  vim.o.guifont = 'Iosevka Term:h12'
+end
+
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
 vim.g.onedark_terminal_italics = 2
 vim.g.gruvbox_italic = 1
 vim.cmd [[colorscheme gruvbox]]
-if vim.g.started_by_firenvim then
-  vim.o.guifont = 'Iosevka Term:h12'
-else
+
+-- Remove background colour if running on Windows Terminal (for transparency effect)
+if os.getenv('WT_SESSION') then
   vim.cmd [[au VimEnter * highlight Normal guibg=0]]
 end
 
