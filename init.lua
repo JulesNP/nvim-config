@@ -74,9 +74,6 @@ vim.o.termguicolors = true
 --Incremental live completion (note: this is now a default on master)
 vim.o.inccommand = 'nosplit'
 
---Set highlight on search
-vim.o.hlsearch = false
-
 --Add relative numbers
 vim.wo.relativenumber = true
 
