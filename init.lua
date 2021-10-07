@@ -109,6 +109,9 @@ vim.o.smartcase = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 
+-- Since we have lualine, no need to show the mode twice
+vim.o.showmode = false
+
 -- Disable line numbers in terminal
 vim.api.nvim_exec([[autocmd TermOpen * setlocal nonumber norelativenumber nobuflisted signcolumn=auto]], false)
 
