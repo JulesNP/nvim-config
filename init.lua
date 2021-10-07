@@ -212,7 +212,7 @@ vim.api.nvim_set_keymap('n', '<leader>v', [[<cmd>CHADopen<CR>]], { noremap = tru
 vim.g.chadtree_settings = { ['theme.text_colour_set'] = 'nerdtree_syntax_dark' }
 
 -- My convenience mappings
-vim.api.nvim_set_keymap('n', '<C-l>', ':nohlsearch<CR><C-L>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-l>', '<Cmd>nohlsearch<Bar>diffupdate<CR><C-L>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>p', '"_dP', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true, silent = true })
