@@ -15,6 +15,16 @@ vim.api.nvim_exec(
   false
 )
 
+vim.api.nvim_exec(
+  [[
+  augroup Format
+      autocmd!
+      autocmd BufWritePost * FormatWrite
+  augroup END
+]],
+  false
+)
+
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
@@ -34,6 +44,7 @@ require('packer').startup(function()
   use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true} }
   -- Add indentation guides even on blank lines
   use 'lukas-reineke/indent-blankline.nvim'
+  use 'lukas-reineke/format.nvim' -- Neovim lua plugin to format the current buffer with external executables
   -- Add git related info in the signs columns and popups
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   -- Highlight, edit, and navigate code using a fast incremental parsing library
@@ -89,7 +100,7 @@ vim.o.mouse = 'a'
 -- Keep 8 lines above/below cursor
 vim.o.scrolloff = 3
 
---Enable break indent
+--Indent wrapped lines
 vim.o.breakindent = true
 
 --Save undo history
@@ -206,6 +217,57 @@ vim.g.indent_blankline_char_highlight = 'LineNr'
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_use_treesitter = true
+
+--Setup for format.nvim
+require "format".setup {
+    ["*"] = {
+        {cmd = {"sed -i 's/[ \t]*$//'"}} -- remove trailing whitespace
+    },
+    vim = {
+        {
+            cmd = {"luafmt -w replace"},
+            start_pattern = "^lua << EOF$",
+            end_pattern = "^EOF$"
+        }
+    },
+    vimwiki = {
+        {
+            cmd = {"prettier -w --parser babel"},
+            start_pattern = "^{{{javascript$",
+            end_pattern = "^}}}$"
+        }
+    },
+    lua = {
+        {
+            cmd = {
+                function(file)
+                    return string.format("luafmt -l %s -w replace %s", vim.bo.textwidth, file)
+                end
+            }
+        }
+    },
+    go = {
+        {
+            cmd = {"gofmt -w", "goimports -w"},
+            tempfile_postfix = ".tmp"
+        }
+    },
+    javascript = {
+        {cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}}
+    },
+    css = {{cmd = {"prettier -w"}}},
+    html = {{cmd = {"prettier -w"}}},
+    json = {{cmd = {"prettier -w"}}},
+    markdown = {
+        {cmd = {"prettier -w"}},
+        {
+            cmd = {"black"},
+            start_pattern = "^```python$",
+            end_pattern = "^```$",
+            target = "current"
+        }
+    }
+}
 
 -- CHADTree
 vim.api.nvim_set_keymap('n', '<leader>v', [[<cmd>CHADopen<CR>]], { noremap = true, silent = true })
@@ -454,3 +516,14 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+require("nvim-autopairs.completion.cmp").setup({
+  map_cr = true, --  map <CR> on insert mode
+  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+  auto_select = true, -- automatically select the first item
+  insert = false, -- use insert confirm behavior instead of replace
+  map_char = { -- modifies the function or method delimiter by filetypes
+    all = '(',
+    tex = '{'
+  }
+})
