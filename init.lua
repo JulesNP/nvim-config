@@ -220,41 +220,33 @@ vim.g.indent_blankline_use_treesitter = true
 
 --Setup for format.nvim
 require "format".setup {
-  ["*"] = {
-    {cmd = {"sed -i 's/[ \t]*$//'"}} -- remove trailing whitespace
-  },
-  -- vim = {
-  --   {
+  ["*"] = {{
+    cmd = {"sed -i 's/[ \t]*$//'"} -- remove trailing whitespace
+  }},
+  -- vim = {{
   --     cmd = {"luafmt -w replace"},
   --     start_pattern = "^lua << EOF$",
   --     end_pattern = "^EOF$"
-  --   }
-  -- },
-  vimwiki = {
-    {
+  -- }},
+  vimwiki = {{
       cmd = {"prettier -w --parser babel"},
       start_pattern = "^{{{javascript$",
       end_pattern = "^}}}$"
-    }
-  },
-  -- lua = {
-  --   {
+  }},
+  -- lua = {{
   --     cmd = {
   --       function(file)
   --         return string.format("luafmt -l %s -w replace %s", vim.bo.textwidth, file)
   --       end
   --     }
-  --   }
-  -- },
-  go = {
-    {
+  -- }},
+  go = {{
       cmd = {"gofmt -w", "goimports -w"},
       tempfile_postfix = ".tmp"
-    }
-  },
-  javascript = {
-    {cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}}
-  },
+  }},
+  javascript = {{
+    cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}
+  }},
   css = {{cmd = {"prettier -w"}}},
   html = {{cmd = {"prettier -w"}}},
   json = {{cmd = {"prettier -w"}}},
