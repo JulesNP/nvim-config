@@ -48,7 +48,7 @@ require('packer').startup(function()
   -- Add git related info in the signs columns and popups
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   -- Highlight, edit, and navigate code using a fast incremental parsing library
-  use 'nvim-treesitter/nvim-treesitter'
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   -- Additional textobjects for treesitter
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   -- Collection of configurations for built-in LSP client
@@ -56,18 +56,26 @@ require('packer').startup(function()
   use 'kabouzeid/nvim-lspinstall' -- Provides the missing :LspInstall for nvim-lspconfig
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-calc'
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-emoji'
+  use 'ray-x/cmp-treesitter'
   use 'ray-x/lsp_signature.nvim'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use 'rafamadriz/friendly-snippets' -- Set of preconfigured snippets for different languages.
+  use 'onsails/lspkind-nvim'  -- vscode-like pictograms for neovim lsp completion items
   use 'ms-jpq/chadtree' -- File Manager for Neovim, Better than NERDTree
   use 'justinmk/vim-sneak' -- The missing motion for Vim 👟
+  use 'windwp/nvim-ts-autotag' -- Use treesitter to auto close and auto rename html tag
   use 'windwp/nvim-autopairs' -- A super powerful autopair for Neovim. It supports multiple characters.
   use {
       'glacambre/firenvim',
       run = function() vim.fn['firenvim#install'](0) end
   }
-  -- use { 'ionide/Ionide-vim', run = 'make fsautocomplete' }
+  use { 'ionide/Ionide-vim', run = 'make fsautocomplete' }
 end)
 
 -- Show title
@@ -136,6 +144,8 @@ vim.wo.signcolumn = 'yes'
 -- Set font if running in firenvim
 if vim.g.started_by_firenvim then
   vim.o.guifont = 'Iosevka Term:h12'
+else
+  vim.o.guifont = 'Iosevka:h16'
 end
 
 --Set colorscheme (order is important here)
@@ -276,16 +286,11 @@ vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true })
 vim.api.nvim_set_keymap('i', 'kj', '<Esc>', { noremap = true })
 
 -- Autopairs setup
-require('nvim-autopairs').setup{}
+require('nvim-autopairs').setup{
+  check_ts = true;
+}
 
 -- require 'ionide'.setup{}
-
--- signature_lsp
-require 'lsp_signature'.setup({
-  handler_opts = {
-    border = "none"
-  },
-})
 
 -- Gitsigns
 require('gitsigns').setup {
@@ -335,6 +340,9 @@ require('nvim-treesitter.configs').setup {
       scope_incremental = 'grc',
       node_decremental = 'grm',
     },
+  },
+  autotag = {
+    enable = true,
   },
   indent = {
     enable = true,
@@ -458,35 +466,36 @@ require'lspinstall'.post_install_hook = function ()
 end
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noinsert,noselect,preview'
+vim.o.completeopt = 'menu,menuone,noinsert,preview'
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 
 -- luasnip setup
 local luasnip = require 'luasnip'
 require("luasnip/loaders/from_vscode").lazy_load()
 
+-- lspkind setup
+local lspkind = require 'lspkind'
+
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
+  completion = {
+    completeopt = 'menu,menuone,noinsert,preview'
+  },
+  formatting = {
+    format = lspkind.cmp_format{}
+  },
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body)
     end,
   },
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    },
+    ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+    ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
     ['<Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      if cmp.visible() then
+        cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
       elseif luasnip.expand_or_jumpable() then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
       else
@@ -494,18 +503,32 @@ cmp.setup {
       end
     end,
     ['<S-Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+      if cmp.visible() then
+        cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
       elseif luasnip.jumpable(-1) then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
       else
         fallback()
       end
     end,
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    })
   },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'nvim_lua' },
+    { name = 'path' },
+    { name = 'calc' },
+    { name = 'buffer' },
+    { name = 'emoji' },
+    { name = 'treesitter' },
   },
 }
 
@@ -518,4 +541,13 @@ require("nvim-autopairs.completion.cmp").setup({
     all = '(',
     tex = '{'
   }
+})
+
+-- signature_lsp
+require 'lsp_signature'.setup({
+  bind = true,
+  hint_enable = false,
+  handler_opts = {
+    border = "none"
+  },
 })
