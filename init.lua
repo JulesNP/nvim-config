@@ -521,12 +521,12 @@ cmp.setup {
     })
   },
   sources = {
+    { name = 'buffer' },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'nvim_lua' },
     { name = 'path' },
     { name = 'calc' },
-    { name = 'buffer' },
     { name = 'emoji' },
     { name = 'treesitter' },
   },
