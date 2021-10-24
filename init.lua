@@ -24,16 +24,6 @@ vim.api.nvim_exec(
   false
 )
 
-vim.api.nvim_exec(
-  [[
-  augroup Format
-      autocmd!
-      autocmd BufWritePost * FormatWrite
-  augroup END
-]],
-  false
-)
-
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
