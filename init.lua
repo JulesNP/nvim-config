@@ -11,6 +11,15 @@ vim.api.nvim_exec(
     autocmd!
     autocmd BufWritePost init.lua PackerCompile
   augroup end
+
+  augroup Format
+    autocmd!
+    autocmd BufWritePost * FormatWrite
+  augroup end
+
+  augroup Comment
+    autocmd FileType fsharp setlocal commentstring=//\ %s
+  augroup end
 ]],
   false
 )
@@ -68,6 +77,7 @@ require('packer').startup(function()
   use 'rafamadriz/friendly-snippets' -- Set of preconfigured snippets for different languages.
   use 'onsails/lspkind-nvim'  -- vscode-like pictograms for neovim lsp completion items
   use 'ms-jpq/chadtree' -- File Manager for Neovim, Better than NERDTree
+  use 'akinsho/toggleterm.nvim' -- A neovim lua plugin to help easily manage multiple terminal windows.
   use 'justinmk/vim-sneak' -- The missing motion for Vim 👟
   use 'windwp/nvim-ts-autotag' -- Use treesitter to auto close and auto rename html tag
   use 'windwp/nvim-autopairs' -- A super powerful autopair for Neovim. It supports multiple characters.
@@ -163,9 +173,9 @@ end
 require'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = 'gruvbox',
-    component_separators = {'', ''},
-    section_separators = {'', ''},
+    theme = 'auto',
+    -- component_separators = {'', ''},
+    -- section_separators = {'', ''},
     disabled_filetypes = {}
   },
   sections = {
@@ -187,7 +197,7 @@ require'lualine'.setup {
     lualine_z = {}
   },
   tabline = {},
-  extensions = {'chadtree', 'fugitive', 'quickfix'}
+  extensions = {'chadtree', 'fugitive', 'quickfix', 'toggleterm'}
 }
 
 --Remap space as leader key
@@ -273,24 +283,80 @@ require "format".setup {
 
 -- CHADTree
 vim.api.nvim_set_keymap('n', '<leader>v', [[<cmd>CHADopen<CR>]], { noremap = true, silent = true })
-vim.g.chadtree_settings = { ['theme.text_colour_set'] = 'nerdtree_syntax_dark' }
+vim.g.chadtree_settings = {
+  ['theme.text_colour_set'] = 'nerdtree_syntax_dark',
+  ['view.width'] = 30,
+}
+
+-- toggleterm
+require("toggleterm").setup{
+  -- size can be a number or function which is passed the current terminal
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 10
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.4
+    end
+  end,
+  open_mapping = [[<c-\>]],
+  hide_numbers = true, -- hide the number column in toggleterm buffers
+  shade_filetypes = {},
+  shade_terminals = true,
+  shading_factor = '1', -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+  start_in_insert = true,
+  insert_mappings = true, -- whether or not the open mapping applies in insert mode
+  persist_size = true,
+  direction = 'horizontal',
+  close_on_exit = true, -- close the terminal window when the process exits
+  shell = vim.o.shell, -- change the default shell
+  -- This field is only relevant if direction is set to 'float'
+  float_opts = {
+    -- The border key is *almost* the same as 'nvim_open_win'
+    -- see :h nvim_open_win for details on borders however
+    -- the 'curved' border is a custom border type
+    -- not natively supported but implemented in this plugin.
+    border = 'single',
+    width = 80,
+    height = 40,
+    winblend = 3,
+    highlights = {
+      border = "Normal",
+      background = "Normal",
+    }
+  }
+}
 
 -- My convenience mappings
-vim.api.nvim_set_keymap('n', '<C-l>', '<Cmd>nohlsearch<Bar>diffupdate<CR><C-L>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>/', '<Cmd>nohlsearch<Bar>diffupdate<CR><C-L>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>p', '"_dP', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', 'y', 'ygv<Esc>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('t', '<C-q>', '<C-\\><C-n>', { silent = true })
 vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true })
 vim.api.nvim_set_keymap('i', 'kj', '<Esc>', { noremap = true })
+vim.api.nvim_set_keymap('t', '<C-q>', [[<C-\><C-n>]], { noremap = true })
+vim.api.nvim_set_keymap('t', 'jk', [[<C-\><C-n>]], { noremap = true })
+vim.api.nvim_set_keymap('t', 'kj', [[<C-\><C-n>]], { noremap = true })
+vim.api.nvim_set_keymap('t', '<C-h>', [[<C-\><C-n><C-W>h]], { noremap = true })
+vim.api.nvim_set_keymap('t', '<C-j>', [[<C-\><C-n><C-W>j]], { noremap = true })
+vim.api.nvim_set_keymap('t', '<C-k>', [[<C-\><C-n><C-W>k]], { noremap = true })
+vim.api.nvim_set_keymap('t', '<C-l>', [[<C-\><C-n><C-W>l]], { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-h>', [[<C-W>h]], { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-j>', [[<C-W>j]], { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-k>', [[<C-W>k]], { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-l>', [[<C-W>l]], { noremap = true })
 
 -- Autopairs setup
 require('nvim-autopairs').setup{
   check_ts = true;
 }
 
--- require 'ionide'.setup{}
+-- Ionide settings
+vim.g['fsharp#lsp_auto_setup'] = 0
+vim.g['fsharp#fsi_window_command'] = 'bel 10new'
+vim.g['fsharp#fsi_keymap'] = 'custom'
+vim.g['fsharp#fsi_keymap_toggle'] = '<leader>i'
+vim.g['fsharp#fsi_keymap_send'] = '<leader>o'
 
 -- Gitsigns
 require('gitsigns').setup {
@@ -455,6 +521,11 @@ local function setup_servers()
       },
     },
   }
+
+  require'ionide'.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
 end
 
 setup_servers()
@@ -511,6 +582,13 @@ cmp.setup {
         fallback()
       end
     end,
+    ['<Esc>'] = function(fallback)
+      if cmp.visible() then
+        cmp.close()
+      else
+        fallback()
+      end
+    end,
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
@@ -521,10 +599,10 @@ cmp.setup {
     })
   },
   sources = {
-    { name = 'buffer' },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'nvim_lua' },
+    { name = 'buffer' },
     { name = 'path' },
     { name = 'calc' },
     { name = 'emoji' },
@@ -534,18 +612,20 @@ cmp.setup {
 
 require("nvim-autopairs.completion.cmp").setup({
   map_cr = true, --  map <CR> on insert mode
-  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
-  auto_select = true, -- automatically select the first item
-  insert = false, -- use insert confirm behavior instead of replace
-  map_char = { -- modifies the function or method delimiter by filetypes
-    all = '(',
-    tex = '{'
-  }
+--   map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+--   auto_select = true, -- automatically select the first item
+--   insert = false, -- use insert confirm behavior instead of replace
+--   map_char = { -- modifies the function or method delimiter by filetypes
+--     all = '(',
+--     tex = '{',
+--     fsharp = ' ',
+--   }
 })
 
 -- signature_lsp
 require 'lsp_signature'.setup({
   bind = true,
+  extra_trigger_chars = { '(', '[', '{', ' ', ',' },
   hint_enable = false,
   handler_opts = {
     border = "none"
