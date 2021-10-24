@@ -219,10 +219,10 @@ vim.api.nvim_exec(
 vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
 
 -- Sneak F & T
-vim.api.nvim_set_keymap("", "f", "<Plug>Sneak_f", {})
-vim.api.nvim_set_keymap("", "F", "<Plug>Sneak_F", {})
-vim.api.nvim_set_keymap("", "t", "<Plug>Sneak_t", {})
-vim.api.nvim_set_keymap("", "T", "<Plug>Sneak_T", {})
+vim.api.nvim_set_keymap("n", "f", "<Plug>Sneak_f", {})
+vim.api.nvim_set_keymap("n", "F", "<Plug>Sneak_F", {})
+vim.api.nvim_set_keymap("n", "t", "<Plug>Sneak_t", {})
+vim.api.nvim_set_keymap("n", "T", "<Plug>Sneak_T", {})
 
 --Map blankline
 vim.g.indent_blankline_char = "┊"
@@ -664,27 +664,26 @@ cmp.setup({
     }),
   },
   sources = {
-    { name = "nvim_lsp" },
     { name = "luasnip" },
-    { name = "nvim_lua" },
-    { name = "buffer" },
+    { name = "nvim_lsp" },
     { name = "path" },
     { name = "calc" },
     { name = "emoji" },
     { name = "treesitter" },
+    { name = "buffer" },
   },
 })
 
 require("nvim-autopairs.completion.cmp").setup({
   map_cr = true, --  map <CR> on insert mode
-  --   map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
-  --   auto_select = true, -- automatically select the first item
-  --   insert = false, -- use insert confirm behavior instead of replace
-  --   map_char = { -- modifies the function or method delimiter by filetypes
-  --     all = '(',
-  --     tex = '{',
-  --     fsharp = ' ',
-  --   }
+  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+  auto_select = true, -- automatically select the first item
+  insert = false, -- use insert confirm behavior instead of replace
+  map_char = { -- modifies the function or method delimiter by filetypes
+    all = '(',
+    tex = '{',
+    fsharp = ' ',
+  }
 })
 
 -- signature_lsp
