@@ -39,6 +39,7 @@ require("packer").startup(function()
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use("joshdick/onedark.vim") -- Theme inspired by Atom
   use("gruvbox-community/gruvbox")
+  use("overcache/NeoSolarized")
   -- A blazing fast and easy to configure neovim statusline written in pure lua
   use({ "hoob3rt/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
   -- Add indentation guides even on blank lines
@@ -154,6 +155,7 @@ end
 vim.o.termguicolors = true
 vim.g.onedark_terminal_italics = 2
 vim.g.gruvbox_italic = 1
+vim.g.neosolarized_italic = 1
 vim.cmd([[colorscheme gruvbox]])
 
 -- Remove background colour if running on Windows Terminal (for transparency effect)
