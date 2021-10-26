@@ -221,7 +221,14 @@ vim.api.nvim_exec(
 -- Y yank until the end of line  (note: this is now a default on master)
 vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
 
--- Sneak F & T
+-- Sneak
+vim.api.nvim_set_keymap("n", "<leader>s", "<Plug>Sneak_s", { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>S", "<Plug>Sneak_S", { silent = true })
+vim.api.nvim_set_keymap("x", "<leader>s", "<Plug>Sneak_s", { silent = true })
+vim.api.nvim_set_keymap("x", "<leader>S", "<Plug>Sneak_S", { silent = true })
+vim.api.nvim_set_keymap("o", "<leader>s", "<Plug>Sneak_s", { silent = true })
+vim.api.nvim_set_keymap("o", "<leader>S", "<Plug>Sneak_S", { silent = true })
+
 vim.api.nvim_set_keymap("", "f", "<Plug>Sneak_f", { silent = true })
 vim.api.nvim_set_keymap("", "F", "<Plug>Sneak_F", { silent = true })
 vim.api.nvim_set_keymap("", "t", "<Plug>Sneak_t", { silent = true })
@@ -455,7 +462,7 @@ vim.api.nvim_set_keymap(
 )
 vim.api.nvim_set_keymap(
   "n",
-  "<leader>fo",
+  "<leader>fc",
   [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]],
   { noremap = true, silent = true }
 )
@@ -560,7 +567,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(
     bufnr,
     "n",
-    "<leader>so",
+    "<leader>fo",
     [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]],
     opts
   )
