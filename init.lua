@@ -70,6 +70,7 @@ require("packer").startup(function()
   use("ms-jpq/chadtree") -- File Manager for Neovim, Better than NERDTree
   use("akinsho/toggleterm.nvim") -- A neovim lua plugin to help easily manage multiple terminal windows.
   use("justinmk/vim-sneak") -- The missing motion for Vim 👟
+  use("bkad/CamelCaseMotion") -- A vim script to provide CamelCase motion through words
   use("windwp/nvim-ts-autotag") -- Use treesitter to auto close and auto rename html tag
   use("windwp/nvim-autopairs") -- A super powerful autopair for Neovim. It supports multiple characters.
   use({
@@ -221,10 +222,34 @@ vim.api.nvim_exec(
 vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
 
 -- Sneak F & T
-vim.api.nvim_set_keymap("n", "f", "<Plug>Sneak_f", {})
-vim.api.nvim_set_keymap("n", "F", "<Plug>Sneak_F", {})
-vim.api.nvim_set_keymap("n", "t", "<Plug>Sneak_t", {})
-vim.api.nvim_set_keymap("n", "T", "<Plug>Sneak_T", {})
+vim.api.nvim_set_keymap("", "f", "<Plug>Sneak_f", { silent = true })
+vim.api.nvim_set_keymap("", "F", "<Plug>Sneak_F", { silent = true })
+vim.api.nvim_set_keymap("", "t", "<Plug>Sneak_t", { silent = true })
+vim.api.nvim_set_keymap("", "T", "<Plug>Sneak_T", { silent = true })
+vim.api.nvim_del_keymap("s", "f")
+vim.api.nvim_del_keymap("s", "F")
+vim.api.nvim_del_keymap("s", "t")
+vim.api.nvim_del_keymap("s", "T")
+
+-- CamelCaseMotion
+vim.api.nvim_set_keymap("", "w", "<Plug>CamelCaseMotion_w", { silent = true })
+vim.api.nvim_set_keymap("", "b", "<Plug>CamelCaseMotion_b", { silent = true })
+vim.api.nvim_set_keymap("", "e", "<Plug>CamelCaseMotion_e", { silent = true })
+vim.api.nvim_set_keymap("", "ge", "<Plug>CamelCaseMotion_ge", { silent = true })
+vim.api.nvim_del_keymap("s", "w")
+vim.api.nvim_del_keymap("s", "b")
+vim.api.nvim_del_keymap("s", "e")
+vim.api.nvim_del_keymap("s", "ge")
+
+vim.api.nvim_set_keymap("o", "iw", "<Plug>CamelCaseMotion_iw", { silent = true })
+vim.api.nvim_set_keymap("x", "iw", "<Plug>CamelCaseMotion_iw", { silent = true })
+vim.api.nvim_set_keymap("o", "ib", "<Plug>CamelCaseMotion_ib", { silent = true })
+vim.api.nvim_set_keymap("x", "ib", "<Plug>CamelCaseMotion_ib", { silent = true })
+vim.api.nvim_set_keymap("o", "ie", "<Plug>CamelCaseMotion_ie", { silent = true })
+vim.api.nvim_set_keymap("x", "ie", "<Plug>CamelCaseMotion_ie", { silent = true })
+
+vim.api.nvim_set_keymap("i", "<S-Left>", "<C-o><Plug>CamelCaseMotion_b", { silent = true })
+vim.api.nvim_set_keymap("i", "<S-Right>", "<C-o><Plug>CamelCaseMotion_w", { silent = true })
 
 --Map blankline
 vim.g.indent_blankline_char = "┊"
