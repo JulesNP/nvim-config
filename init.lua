@@ -70,7 +70,7 @@ require("packer").startup(function()
   use("ms-jpq/chadtree") -- File Manager for Neovim, Better than NERDTree
   use("akinsho/toggleterm.nvim") -- A neovim lua plugin to help easily manage multiple terminal windows.
   use("justinmk/vim-sneak") -- The missing motion for Vim 👟
-  use("bkad/CamelCaseMotion") -- A vim script to provide CamelCase motion through words
+  use("chaoren/vim-wordmotion") -- More useful word motions for Vim
   use("windwp/nvim-ts-autotag") -- Use treesitter to auto close and auto rename html tag
   use("windwp/nvim-autopairs") -- A super powerful autopair for Neovim. It supports multiple characters.
   use({
@@ -237,26 +237,6 @@ vim.api.nvim_del_keymap("s", "f")
 vim.api.nvim_del_keymap("s", "F")
 vim.api.nvim_del_keymap("s", "t")
 vim.api.nvim_del_keymap("s", "T")
-
--- CamelCaseMotion
-vim.api.nvim_set_keymap("", "w", "<Plug>CamelCaseMotion_w", { silent = true })
-vim.api.nvim_set_keymap("", "b", "<Plug>CamelCaseMotion_b", { silent = true })
-vim.api.nvim_set_keymap("", "e", "<Plug>CamelCaseMotion_e", { silent = true })
-vim.api.nvim_set_keymap("", "ge", "<Plug>CamelCaseMotion_ge", { silent = true })
-vim.api.nvim_del_keymap("s", "w")
-vim.api.nvim_del_keymap("s", "b")
-vim.api.nvim_del_keymap("s", "e")
-vim.api.nvim_del_keymap("s", "ge")
-
-vim.api.nvim_set_keymap("o", "iw", "<Plug>CamelCaseMotion_iw", { silent = true })
-vim.api.nvim_set_keymap("x", "iw", "<Plug>CamelCaseMotion_iw", { silent = true })
-vim.api.nvim_set_keymap("o", "ib", "<Plug>CamelCaseMotion_ib", { silent = true })
-vim.api.nvim_set_keymap("x", "ib", "<Plug>CamelCaseMotion_ib", { silent = true })
-vim.api.nvim_set_keymap("o", "ie", "<Plug>CamelCaseMotion_ie", { silent = true })
-vim.api.nvim_set_keymap("x", "ie", "<Plug>CamelCaseMotion_ie", { silent = true })
-
-vim.api.nvim_set_keymap("i", "<S-Left>", "<C-o><Plug>CamelCaseMotion_b", { silent = true })
-vim.api.nvim_set_keymap("i", "<S-Right>", "<C-o><Plug>CamelCaseMotion_w", { silent = true })
 
 --Map blankline
 vim.g.indent_blankline_char = "┊"
@@ -636,7 +616,7 @@ require("lspinstall").post_install_hook = function()
 end
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = "menu,menuone,noinsert,preview"
+vim.o.completeopt = "menu,menuone,preview,noinsert"
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
 -- luasnip setup
@@ -658,8 +638,6 @@ cmp.setup({
     end,
   },
   mapping = {
-    ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-    ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
     ["<Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -678,39 +656,32 @@ cmp.setup({
         fallback()
       end
     end,
-    ["<Esc>"] = function(fallback)
-      if cmp.visible() then
-        cmp.close()
-      else
-        fallback()
-      end
-    end,
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
   },
   sources = {
     { name = "luasnip" },
     { name = "nvim_lsp" },
     { name = "path" },
-    { name = "calc" },
     { name = "emoji" },
     { name = "treesitter" },
     { name = "buffer" },
+    { name = "calc" },
   },
 })
 
 require("nvim-autopairs.completion.cmp").setup({
   map_cr = true, --  map <CR> on insert mode
   map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
-  auto_select = true, -- automatically select the first item
-  insert = false, -- use insert confirm behavior instead of replace
+  auto_select = false, -- automatically select the first item
+  insert = true, -- use insert confirm behavior instead of replace
   map_char = { -- modifies the function or method delimiter by filetypes
     all = '(',
     tex = '{',
-    fsharp = ' ',
+    fsharp = '',
   }
 })
 
