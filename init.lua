@@ -66,6 +66,9 @@ require("packer").startup(function()
   use("L3MON4D3/LuaSnip") -- Snippets plugin
   use("rafamadriz/friendly-snippets") -- Set of preconfigured snippets for different languages.
   use("onsails/lspkind-nvim") -- vscode-like pictograms for neovim lsp completion items
+  use("norcalli/nvim-colorizer.lua") -- The fastest Neovim colorizer
+  use("dstein64/nvim-scrollview") -- 📍A Neovim plugin that displays interactive vertical scrollbars.
+  -- use("karb94/neoscroll.nvim") -- Smooth scrolling neovim plugin written in lua
   use("ms-jpq/chadtree") -- File Manager for Neovim, Better than NERDTree
   use("akinsho/toggleterm.nvim") -- A neovim lua plugin to help easily manage multiple terminal windows.
   use("justinmk/vim-sneak") -- The missing motion for Vim 👟
@@ -363,6 +366,12 @@ vim.api.nvim_set_keymap("n", "<C-l>", [[<C-W>l]], { noremap = true })
 require("nvim-autopairs").setup({
   check_ts = true,
 })
+
+-- Colorizer setup
+require("colorizer").setup()
+
+-- Neoscroll setup
+-- require('neoscroll').setup()
 
 -- Ionide settings
 vim.g["fsharp#lsp_auto_setup"] = 0
