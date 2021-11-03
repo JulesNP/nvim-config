@@ -52,8 +52,7 @@ require("packer").startup(function()
   -- Additional textobjects for treesitter
   use("nvim-treesitter/nvim-treesitter-textobjects")
   -- Collection of configurations for built-in LSP client
-  use("neovim/nvim-lspconfig")
-  use("kabouzeid/nvim-lspinstall") -- Provides the missing :LspInstall for nvim-lspconfig
+  use{"neovim/nvim-lspconfig", "williamboman/nvim-lsp-installer"}
   use("hrsh7th/nvim-cmp") -- Autocompletion plugin
   use("hrsh7th/cmp-nvim-lsp")
   use("hrsh7th/cmp-path")
@@ -97,11 +96,10 @@ vim.o.termguicolors = true
 --Incremental live completion (note: this is now a default on master)
 vim.o.inccommand = "nosplit"
 
---Add relative numbers
+-- Number stuff
 vim.wo.relativenumber = true
-
---Make line numbers default
 vim.wo.number = true
+vim.o.numberwidth = 2
 
 --Do not save when switching buffers (note: this is now a default on master)
 vim.o.hidden = true
@@ -112,13 +110,12 @@ vim.o.mouse = "a"
 -- Keep 8 lines above/below cursor
 vim.o.scrolloff = 3
 
---Indent wrapped lines
-vim.o.breakindent = true
-
 --Save undo history
 vim.opt.undofile = true
 
--- Set the behavior of tab
+-- Indentation stuff
+vim.o.breakindent = true
+vim.o.smartindent = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
@@ -458,6 +455,7 @@ vim.api.nvim_set_keymap(
 require("nvim-treesitter.configs").setup({
   highlight = {
     enable = true, -- false will disable the whole extension
+    additional_vim_regex_highlighting = true,
   },
   incremental_selection = {
     enable = true,
@@ -472,6 +470,9 @@ require("nvim-treesitter.configs").setup({
     enable = true,
   },
   indent = {
+    enable = true,
+  },
+  matchup = {
     enable = true,
   },
   textobjects = {
@@ -558,62 +559,54 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-local function setup_servers()
-  require("lspinstall").setup()
-  local servers = require("lspinstall").installed_servers()
-  for _, server in pairs(servers) do
-    require("lspconfig")[server].setup({
+local lsp_installer = require("nvim-lsp-installer")
+
+lsp_installer.on_server_ready(function(server)
+    local opts = {
       on_attach = on_attach,
       capabilities = capabilities,
-    })
-  end
+    }
 
-  -- Custom lua setup
-  -- Make runtime files discoverable to the server
-  local runtime_path = vim.split(package.path, ";")
-  table.insert(runtime_path, "lua/?.lua")
-  table.insert(runtime_path, "lua/?/init.lua")
-
-  nvim_lsp.lua.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-      Lua = {
-        runtime = {
-          -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-          version = "LuaJIT",
-          -- Setup your lua path
-          path = runtime_path,
+    -- (optional) Customize the options passed to the server
+    if server.name == "sumneko_lua" then
+      -- Custom lua setup
+      -- make runtime files discoverable to the server
+      local runtime_path = vim.split(package.path, ";")
+      table.insert(runtime_path, "lua/?.lua")
+      table.insert(runtime_path, "lua/?/init.lua")
+      opts.settings = {
+        Lua = {
+          runtime = {
+            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+            version = "LuaJIT",
+            -- Setup your lua path
+            path = runtime_path,
+          },
+          diagnostics = {
+            -- Get the language server to recognize the `vim` global
+            globals = { "vim" },
+          },
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = vim.api.nvim_get_runtime_file("", true),
+          },
+          -- Do not send telemetry data containing a randomized but unique identifier
+          telemetry = {
+            enable = false,
+          },
         },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = { "vim" },
-        },
-        workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = vim.api.nvim_get_runtime_file("", true),
-        },
-        -- Do not send telemetry data containing a randomized but unique identifier
-        telemetry = {
-          enable = false,
-        },
-      },
-    },
-  })
+      }
+    end
 
-  require("ionide").setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-  })
-end
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
+    server:setup(opts)
+end)
 
-setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require("lspinstall").post_install_hook = function()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
+require("ionide").setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menu,menuone,preview,noinsert"
@@ -641,8 +634,6 @@ cmp.setup({
     ["<Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-      elseif luasnip.expand_or_jumpable() then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
       else
         fallback()
       end
@@ -650,7 +641,19 @@ cmp.setup({
     ["<S-Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-      elseif luasnip.jumpable(-1) then
+      else
+        fallback()
+      end
+    end,
+    ["<C-n>"] = function(fallback)
+      if luasnip.expand_or_jumpable() then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+      else
+        fallback()
+      end
+    end,
+    ["<C-p>"] = function(fallback)
+      if luasnip.jumpable(-1) then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
       else
         fallback()
@@ -672,13 +675,6 @@ cmp.setup({
     { name = "calc" },
   },
 })
-
--- If you want insert `(` after select function or method item
-cmp.event:on( 'confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done({  map_char = {
-    all = '(',
-    tex = '{',
-    fsharp = '',
-} }))
 
 -- signature_lsp
 require("lsp_signature").setup({
