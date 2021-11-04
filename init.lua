@@ -115,6 +115,11 @@ vim.o.hidden = true
 --Enable mouse mode
 vim.o.mouse = "a"
 
+-- Setting colorcolumn. This is set because of
+-- this (https://github.com/lukas-reineke/indent-blankline.nvim/issues/59)
+-- indent-blankline bug.
+vim.o.colorcolumn = "9999"
+
 -- Keep 8 lines above/below cursor
 vim.o.scrolloff = 3
 
