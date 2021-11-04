@@ -26,20 +26,25 @@ vim.api.nvim_exec(
 
 local use = require("packer").use
 require("packer").startup(function()
-  use("wbthomason/packer.nvim") -- Package manager
-  use("tpope/vim-fugitive") -- Git commands in nvim
-  use("tpope/vim-rhubarb") -- Fugitive-companion to interact with github
+  use("wbthomason/packer.nvim") -- Packer itself
+
+  -- tpope's plugins
   use("tpope/vim-commentary") -- "gc" to comment visual regions/lines
+  use("tpope/vim-fugitive") -- Git commands in nvim
   use("tpope/vim-repeat") -- enable repeating supported plugin maps with "."
+  use("tpope/vim-rhubarb") -- Fugitive-companion to interact with github
   use("tpope/vim-speeddating") -- use CTRL-A/CTRL-X to increment dates, times, and more
   use("tpope/vim-surround") -- quoting/parenthesizing made simple
   use("tpope/vim-unimpaired") -- Pairs of handy bracket mappings
-  use("ludovicchabant/vim-gutentags") -- Automatic tags management
+
+  -- Themes
+  use("gruvbox-community/gruvbox")
+  use("joshdick/onedark.vim")
+  use("overcache/NeoSolarized")
+
   -- UI to select things (files, grep results, open buffers...)
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
-  use("joshdick/onedark.vim") -- Theme inspired by Atom
-  use("gruvbox-community/gruvbox")
-  use("overcache/NeoSolarized")
+  use("liuchengxu/vista.vim") -- 🌵 Viewer & Finder for LSP symbols and tags
   -- A blazing fast and easy to configure neovim statusline written in pure lua
   use({ "hoob3rt/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
   -- Add indentation guides even on blank lines
@@ -368,7 +373,10 @@ require("nvim-autopairs").setup({
 })
 
 -- Colorizer setup
-require("colorizer").setup()
+require("colorizer").setup({
+  "*",
+  css = { rgb_fn = true },
+})
 
 -- Neoscroll setup
 -- require('neoscroll').setup()
@@ -392,21 +400,13 @@ require("gitsigns").setup({
 })
 
 -- Telescope
-require("telescope").setup({
-  defaults = {
-    mappings = {
-      i = {
-        ["<C-u>"] = false,
-        ["<C-d>"] = false,
-      },
-    },
-  },
-})
+local telescope = require("telescope")
+telescope.setup({})
 --Add telescope shortcuts
 vim.api.nvim_set_keymap(
   "n",
   "<leader>ff",
-  [[<cmd>lua require('telescope.builtin').find_files({previewer = false})<CR>]],
+  [[<cmd>lua require('telescope.builtin').find_files()<CR>]],
   { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
@@ -427,7 +427,6 @@ vim.api.nvim_set_keymap(
   [[<cmd>lua require('telescope.builtin').help_tags()<CR>]],
   { noremap = true, silent = true }
 )
-
 vim.api.nvim_set_keymap(
   "n",
   "<leader>fz",
@@ -436,20 +435,8 @@ vim.api.nvim_set_keymap(
 )
 vim.api.nvim_set_keymap(
   "n",
-  "<leader>ft",
-  [[<cmd>lua require('telescope.builtin').tags()<CR>]],
-  { noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>fs",
-  [[<cmd>lua require('telescope.builtin').grep_string()<CR>]],
-  { noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>fc",
-  [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]],
+  "<leader>bi",
+  [[<cmd>lua require('telescope.builtin').builtin()<CR>]],
   { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
@@ -520,7 +507,6 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- LSP settings
-local nvim_lsp = require("lspconfig")
 local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
