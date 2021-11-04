@@ -1,3 +1,15 @@
+-- If running from Windows, set shell to powershell
+vim.cmd
+[[
+if has('win32')
+    set shell=powershell " Your shell must be powershell
+    let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+    let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+    let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+    set shellquote= shellxquote=
+endif
+]]
+
 -- Install packer
 local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
