@@ -32,6 +32,10 @@ vim.api.nvim_exec(
   augroup Comment
     autocmd FileType fsharp setlocal commentstring=//\ %s
   augroup end
+
+  augroup Vista
+    autocmd bufenter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "normal! :q!\<CR>" | endif
+  augroup end
 ]],
   false
 )
@@ -57,6 +61,8 @@ require("packer").startup(function()
   -- UI to select things (files, grep results, open buffers...)
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use("liuchengxu/vista.vim") -- 🌵 Viewer & Finder for LSP symbols and tags
+  -- ✅ Highlight, list and search todo comments in your projects
+  use {"folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim"}
   -- A blazing fast and easy to configure neovim statusline written in pure lua
   use({ "hoob3rt/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
   -- Add indentation guides even on blank lines
@@ -85,8 +91,8 @@ require("packer").startup(function()
   use("onsails/lspkind-nvim") -- vscode-like pictograms for neovim lsp completion items
   use("norcalli/nvim-colorizer.lua") -- The fastest Neovim colorizer
   use("dstein64/nvim-scrollview") -- 📍A Neovim plugin that displays interactive vertical scrollbars.
-  -- use("karb94/neoscroll.nvim") -- Smooth scrolling neovim plugin written in lua
-  use("ms-jpq/chadtree") -- File Manager for Neovim, Better than NERDTree
+  -- A file explorer tree for neovim written in lua
+  use {"kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons"}
   use("akinsho/toggleterm.nvim") -- A neovim lua plugin to help easily manage multiple terminal windows.
   use("justinmk/vim-sneak") -- The missing motion for Vim 👟
   use("chaoren/vim-wordmotion") -- More useful word motions for Vim
@@ -217,7 +223,7 @@ require("lualine").setup({
     lualine_z = {},
   },
   tabline = {},
-  extensions = { "chadtree", "fugitive", "quickfix", "toggleterm" },
+  extensions = { "nvim-tree", "fugitive", "quickfix", "toggleterm" },
 })
 
 --Remap space as leader key
@@ -319,12 +325,34 @@ require("format").setup({
   },
 })
 
--- CHADTree
-vim.api.nvim_set_keymap("n", "<leader>v", [[<cmd>CHADopen<CR>]], { noremap = true, silent = true })
-vim.g.chadtree_settings = {
-  ["theme.text_colour_set"] = "nerdtree_syntax_dark",
-  ["view.width"] = 30,
-}
+-- nvim-tree setup
+vim.g.nvim_tree_indent_markers = 1
+vim.api.nvim_set_keymap("n", "<leader>v", "<Cmd>Vista!!<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>n", "<Cmd>NvimTreeToggle<CR>", { noremap = true, silent = true })
+vim.cmd [[
+let g:nvim_tree_window_picker_exclude = {
+  \   'filetype': [
+  \     'notify',
+  \     'packer',
+  \     'qf',
+  \     'vista'
+  \   ],
+  \   'buftype': [
+  \     'terminal'
+  \   ]
+  \ }
+]]
+require("nvim-tree").setup({
+  update_focused_file = {
+    enable = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
+-- todo-comments setup
+require("todo-comments").setup({})
 
 -- toggleterm
 require("toggleterm").setup({
