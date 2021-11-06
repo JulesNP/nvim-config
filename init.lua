@@ -121,6 +121,7 @@ vim.o.inccommand = "nosplit"
 vim.wo.relativenumber = true
 vim.wo.number = true
 vim.o.numberwidth = 2
+vim.o.cursorline = true
 
 --Do not save when switching buffers (note: this is now a default on master)
 vim.o.hidden = true
@@ -378,15 +379,7 @@ require("colorizer").setup({
 vim.g.scrollview_column = 1
 
 -- Gitsigns
-require("gitsigns").setup({
-  signs = {
-    add = { hl = "GitGutterAdd", text = "+" },
-    change = { hl = "GitGutterChange", text = "~" },
-    delete = { hl = "GitGutterDelete", text = "_" },
-    topdelete = { hl = "GitGutterDelete", text = "‾" },
-    changedelete = { hl = "GitGutterChange", text = "~" },
-  },
-})
+require("gitsigns").setup({})
 
 -- Telescope
 local telescope = require("telescope")
