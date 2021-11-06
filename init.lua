@@ -30,6 +30,12 @@ vim.api.nvim_exec(
   augroup Vista
     autocmd bufenter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "normal! :q!\<CR>" | endif
   augroup end
+
+  augroup CursorLine
+    au!
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
+  augroup end
 ]],
   false
 )
@@ -121,7 +127,6 @@ vim.o.inccommand = "nosplit"
 vim.wo.relativenumber = true
 vim.wo.number = true
 vim.o.numberwidth = 2
-vim.o.cursorline = true
 
 --Do not save when switching buffers (note: this is now a default on master)
 vim.o.hidden = true
