@@ -65,6 +65,8 @@ require("packer").startup(function()
   use({ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" })
   -- A blazing fast and easy to configure neovim statusline written in pure lua
   use({ "hoob3rt/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
+  -- A snazzy bufferline for Neovim
+  use({ "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" })
   -- Add indentation guides even on blank lines
   use("lukas-reineke/indent-blankline.nvim")
   -- Add git related info in the signs columns and popups
@@ -225,6 +227,26 @@ require("lualine").setup({
   },
   tabline = {},
   extensions = { "nvim-tree", "fugitive", "quickfix", "toggleterm" },
+})
+
+-- bufferline setup
+require("bufferline").setup({
+  options = {
+    diagnostics = "nvim_lsp",
+    diagnostics_indicator = function(count, level, _, _)
+      local icon = level:match("error") and " " or " "
+      return " " .. icon .. count
+    end,
+    offsets = {
+      {
+        filetype = "NvimTree",
+        text = "File Explorer",
+        highlight = "Directory",
+        text_align = "left",
+      },
+    },
+    show_close_icon = false,
+  },
 })
 
 --Remap space as leader key
@@ -499,9 +521,9 @@ local on_attach = function(client, bufnr)
 
   local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
@@ -512,9 +534,15 @@ local on_attach = function(client, bufnr)
     "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
     opts
   )
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(
+    bufnr,
+    "n",
+    "<leader>D",
+    "<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>",
+    opts
+  )
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "v", "<leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
