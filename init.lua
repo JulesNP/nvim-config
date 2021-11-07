@@ -58,6 +58,7 @@ require("packer").startup(function()
   use("joshdick/onedark.vim")
   use("overcache/NeoSolarized")
 
+  use("junegunn/fzf") -- 🌸 A command-line fuzzy finder
   -- UI to select things (files, grep results, open buffers...)
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use("liuchengxu/vista.vim") -- 🌵 Viewer & Finder for LSP symbols and tags
