@@ -206,21 +206,16 @@ require("lualine").setup({
   },
   sections = {
     lualine_a = { "mode" },
-    lualine_b = { "branch" },
-    lualine_c = { "filename" },
-    lualine_x = {
-      { "diagnostics", sources = { "nvim_lsp" } },
-      "encoding",
-      "fileformat",
-      "filetype",
-    },
-    lualine_y = { "progress" },
+    lualine_b = { "branch", "diff" },
+    lualine_c = { { "filename", path = 1 } },
+    lualine_x = { { "diagnostics", sources = { "nvim_lsp" } } },
+    lualine_y = { "encoding", "fileformat", "filetype" },
     lualine_z = { "location" },
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { "filename" },
+    lualine_c = { { "filename", path = 1 } },
     lualine_x = { "location" },
     lualine_y = {},
     lualine_z = {},
@@ -231,6 +226,16 @@ require("lualine").setup({
 
 -- bufferline setup
 require("bufferline").setup({
+  highlights = {
+    buffer_selected = { gui = "bold" },
+    diagnostic_selected = { gui = "bold" },
+    info_selected = { gui = "bold" },
+    info_diagnostic_selected = { gui = "bold" },
+    warning_selected = { gui = "bold" },
+    warning_diagnostic_selected = { gui = "bold" },
+    error_selected = { gui = "bold" },
+    error_diagnostic_selected = { gui = "bold" },
+  },
   options = {
     diagnostics = "nvim_lsp",
     diagnostics_indicator = function(count, level, _, _)
@@ -390,6 +395,12 @@ vim.api.nvim_set_keymap("n", "<C-j>", [[<C-W>j]], { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-k>", [[<C-W>k]], { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-l>", [[<C-W>l]], { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-S-v>", "a<C-r>+", { noremap = true })
+vim.api.nvim_set_keymap("n", "[b", "<Cmd>BufferLineCyclePrev<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "]b", "<Cmd>BufferLineCycleNext<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<b", "<Cmd>BufferLineMovePrev<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", ">b", "<Cmd>BufferLineMoveNext<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>be", "<Cmd>BufferLineSortByExtension<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>bd", "<Cmd>BufferLineSortByDirectory<CR>", { noremap = true })
 
 -- Autopairs setup
 require("nvim-autopairs").setup({
@@ -641,7 +652,6 @@ require("lspconfig")["null-ls"].setup({
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menu,menuone,preview,noinsert"
-vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
 -- luasnip setup
 local luasnip = require("luasnip")
