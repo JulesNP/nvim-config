@@ -530,7 +530,6 @@ require("nvim-treesitter.configs").setup({
 -- LSP settings
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
 
   local function buf_set_keymap(...)
     vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -556,6 +555,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<leader>fo", [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
   -- Only use null-ls for formatting
   if client.name == "null-ls" then
+    vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
     vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
     vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
   else
