@@ -639,9 +639,6 @@ require("lspconfig")["null-ls"].setup({
   capabilities = capabilities,
 })
 
--- Set completeopt to have a better completion experience
-vim.o.completeopt = "menu,menuone,preview,noinsert"
-
 -- luasnip setup
 local luasnip = require("luasnip")
 require("luasnip/loaders/from_vscode").lazy_load()
