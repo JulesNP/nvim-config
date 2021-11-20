@@ -654,7 +654,19 @@ local lspkind = require("lspkind")
 local cmp = require("cmp")
 cmp.setup({
   formatting = {
-    format = lspkind.cmp_format({}),
+    format = lspkind.cmp_format({
+      with_text = true,
+      menu = {
+        luasnip = "[luasnip]",
+        nvim_lsp = "[lsp]",
+        path = "[path]",
+        emoji = "[emoji]",
+        calc = "[calc]",
+        spell = "[spell]",
+        buffer = "[buffer]",
+        rg = "[rg]",
+      },
+    }),
   },
   snippet = {
     expand = function(args)
