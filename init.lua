@@ -96,6 +96,7 @@ require("packer").startup(function()
   -- A file explorer tree for neovim written in lua
   use({ "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" })
   use("akinsho/toggleterm.nvim") -- A neovim lua plugin to help easily manage multiple terminal windows.
+  use("wellle/targets.vim") -- Vim plugin that provides additional text objects
   use("justinmk/vim-sneak") -- The missing motion for Vim 👟
   use("chaoren/vim-wordmotion") -- More useful word motions for Vim
   use("windwp/nvim-ts-autotag") -- Use treesitter to auto close and auto rename html tag
