@@ -85,7 +85,7 @@ require("packer").startup(function()
   use("hrsh7th/cmp-calc")
   use("hrsh7th/cmp-nvim-lua")
   use("hrsh7th/cmp-emoji")
-  use("ray-x/cmp-treesitter")
+  use("lukas-reineke/cmp-rg")
   use("ray-x/lsp_signature.nvim")
   use("saadparwaiz1/cmp_luasnip")
   use("L3MON4D3/LuaSnip") -- Snippets plugin
@@ -701,9 +701,10 @@ cmp.setup({
     { name = "nvim_lsp" },
     { name = "path" },
     { name = "emoji" },
-    { name = "treesitter" },
-    { name = "buffer" },
     { name = "calc" },
+    { name = "spell" },
+    { name = "buffer" },
+    { name = "rg", priority = -1 },
   },
 })
 
