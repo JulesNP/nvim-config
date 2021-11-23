@@ -108,6 +108,7 @@ require("packer").startup(function()
     end,
   })
   use({ "ionide/Ionide-vim", run = "make fsautocomplete" })
+  use("OrangeT/vim-csharp") -- Enhancement's to Vim's C-Sharp Functionality
   -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
   use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } })
 end)
