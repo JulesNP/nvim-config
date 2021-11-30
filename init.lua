@@ -412,7 +412,9 @@ vim.api.nvim_set_keymap("n", "<leader>be", "<Cmd>BufferLineSortByExtension<CR>",
 vim.api.nvim_set_keymap("n", "<leader>bd", "<Cmd>BufferLineSortByDirectory<CR>", { noremap = true })
 
 -- Autopairs setup
-require("nvim-autopairs").setup()
+require("nvim-autopairs").setup({
+  fast_wrap = {},
+})
 
 -- Colorizer setup
 require("colorizer").setup({
