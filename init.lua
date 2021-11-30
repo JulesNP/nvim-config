@@ -27,10 +27,6 @@ vim.api.nvim_exec(
     autocmd FileType fsharp setlocal commentstring=//\ %s
   augroup end
 
-  augroup Vista
-    autocmd bufenter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "normal! :q!\<CR>" | endif
-  augroup end
-
   augroup CursorLine
     au!
     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
@@ -67,7 +63,6 @@ require("packer").startup(function()
   })
   -- UI to select things (files, grep results, open buffers...)
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
-  use("liuchengxu/vista.vim") -- 🌵 Viewer & Finder for LSP symbols and tags
   -- ✅ Highlight, list and search todo comments in your projects
   use({ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" })
   -- A blazing fast and easy to configure neovim statusline written in pure lua
@@ -314,7 +309,6 @@ vim.g.indent_blankline_use_treesitter = true
 
 -- nvim-tree setup
 vim.g.nvim_tree_indent_markers = 1
-vim.api.nvim_set_keymap("n", "<leader>v", "<Cmd>Vista!!<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>n", "<Cmd>NvimTreeToggle<CR>", { noremap = true, silent = true })
 vim.cmd([[
 let g:nvim_tree_window_picker_exclude = {
