@@ -108,7 +108,7 @@ require("packer").startup(function()
       vim.fn["firenvim#install"](0)
     end,
   })
-  use({ "ionide/Ionide-vim", run = "make fsautocomplete" })
+  use("PhilT/vim-fsharp") -- Basic F# support for (Neo)Vim 🔷
   use("OrangeT/vim-csharp") -- Enhancement's to Vim's C-Sharp Functionality
   -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
   use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } })
@@ -610,17 +610,6 @@ lsp_installer.on_server_ready(function(server)
   -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
   server:setup(opts)
 end)
-
--- Ionide configuration
-vim.g["fsharp#lsp_auto_setup"] = 0
-vim.g["fsharp#fsi_window_command"] = "bel 10new"
-vim.g["fsharp#fsi_keymap"] = "custom"
-vim.g["fsharp#fsi_keymap_toggle"] = "<leader>i"
-vim.g["fsharp#fsi_keymap_send"] = "<leader>o"
-require("ionide").setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
 
 -- null-ls configuration
 local null_ls = require("null-ls")
