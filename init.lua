@@ -112,6 +112,9 @@ require("packer").startup(function()
   use("OrangeT/vim-csharp") -- Enhancement's to Vim's C-Sharp Functionality
   -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
   use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } })
+  use("folke/which-key.nvim") -- 💥 Create key bindings that stick.
+  use("andymass/vim-matchup") -- even better % 👊 navigate and highlight matching words
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" }) -- markdown preview plugin for (neo)vim
 end)
 
 -- Show title
@@ -372,6 +375,9 @@ require("toggleterm").setup({
     },
   },
 })
+
+-- whichkey setup
+require("which-key").setup({})
 
 -- My convenience mappings
 vim.api.nvim_set_keymap("n", "<leader>/", "<Cmd>nohlsearch<Bar>diffupdate<CR><C-L>", { noremap = true, silent = true })
