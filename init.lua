@@ -41,7 +41,6 @@ require("packer").startup(function()
   use("wbthomason/packer.nvim") -- Packer itself
 
   -- tpope's plugins
-  use("tpope/vim-commentary") -- "gc" to comment visual regions/lines
   use("tpope/vim-fugitive") -- Git commands in nvim
   use("tpope/vim-repeat") -- enable repeating supported plugin maps with "."
   use("tpope/vim-rhubarb") -- Fugitive-companion to interact with github
@@ -105,6 +104,7 @@ require("packer").startup(function()
   use("chaoren/vim-wordmotion") -- More useful word motions for Vim
   use("windwp/nvim-ts-autotag") -- Use treesitter to auto close and auto rename html tag
   use("windwp/nvim-autopairs") -- A super powerful autopair for Neovim. It supports multiple characters.
+  use("numToStr/Comment.nvim") -- 🧠 💪 // Smart and powerful comment plugin for neovim.
   use({
     "glacambre/firenvim",
     run = function()
@@ -337,6 +337,9 @@ require("nvim-tree").setup({
     dotfiles = true,
   },
 })
+
+-- Comment.nvim setup
+require("Comment").setup()
 
 -- todo-comments setup
 require("todo-comments").setup({})
