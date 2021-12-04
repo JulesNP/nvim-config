@@ -418,6 +418,7 @@ vim.api.nvim_set_keymap("n", ">b", "<Cmd>BufferLineMoveNext<CR>", { noremap = tr
 vim.api.nvim_set_keymap("n", "<leader>be", "<Cmd>BufferLineSortByExtension<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>bd", "<Cmd>BufferLineSortByDirectory<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>gg", "<Cmd>Git<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>gd", "<Cmd>Gdiffsplit<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>gp", "<Cmd>Git push<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>gu", "<Cmd>Git pull<CR>", { noremap = true })
 
