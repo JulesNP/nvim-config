@@ -437,7 +437,12 @@ require("colorizer").setup({
 vim.g.scrollview_column = 1
 
 -- Gitsigns
-require("gitsigns").setup({})
+require("gitsigns").setup({
+  signs = {
+    add = { hl = "GitSignsAdd", text = "+", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+    change = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+  },
+})
 
 -- Telescope
 local telescope = require("telescope")
