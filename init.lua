@@ -119,7 +119,6 @@ require("packer").startup(function()
   use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } })
   use("folke/which-key.nvim") -- 💥 Create key bindings that stick.
   use("andymass/vim-matchup") -- even better % 👊 navigate and highlight matching words
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" }) -- markdown preview plugin for (neo)vim
 end)
 
 -- Show title
