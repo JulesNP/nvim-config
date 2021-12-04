@@ -731,7 +731,7 @@ cmp.setup({
     { name = "calc" },
     { name = "spell" },
     { name = "buffer" },
-    { name = "rg", priority = -1 },
+    { name = "rg", priority = -9 },
   },
 })
 
