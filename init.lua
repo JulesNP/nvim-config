@@ -732,7 +732,7 @@ cmp.setup({
     { name = "calc" },
     { name = "spell" },
     { name = "buffer" },
-    { name = "rg", priority = -10, keyword_length = 3 },
+    { name = "rg", priority = -1, keyword_length = 3, max_item_count = 10 },
   },
 })
 
