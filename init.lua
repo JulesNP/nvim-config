@@ -85,8 +85,10 @@ require("packer").startup(function()
   use("hrsh7th/cmp-path")
   use("hrsh7th/cmp-buffer")
   use("hrsh7th/cmp-calc")
+  use("hrsh7th/cmp-cmdline")
   use("hrsh7th/cmp-nvim-lua")
   use("hrsh7th/cmp-emoji")
+  use("f3fora/cmp-spell")
   use("lukas-reineke/cmp-rg")
 
   use("ray-x/lsp_signature.nvim")
@@ -665,7 +667,8 @@ cmp.setup({
     format = lspkind.cmp_format({
       with_text = true,
       menu = {
-        luasnip = "[luasnip]",
+        luasnip = "[snip]",
+        nvim_lua = "[lua]",
         nvim_lsp = "[lsp]",
         path = "[path]",
         emoji = "[emoji]",
@@ -673,6 +676,7 @@ cmp.setup({
         spell = "[spell]",
         buffer = "[buffer]",
         rg = "[rg]",
+        cmdline = "[cmd]",
       },
     }),
   },
@@ -720,6 +724,7 @@ cmp.setup({
   },
   sources = {
     { name = "luasnip" },
+    { name = "nvim_lua" },
     { name = "nvim_lsp" },
     { name = "path" },
     { name = "emoji" },
