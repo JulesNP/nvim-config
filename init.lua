@@ -80,6 +80,8 @@ require("packer").startup(function()
   -- Collection of configurations for built-in LSP client
   use({ "neovim/nvim-lspconfig", "williamboman/nvim-lsp-installer" })
   use("hrsh7th/nvim-cmp") -- Autocompletion plugin
+
+  -- Completion sources
   use("hrsh7th/cmp-nvim-lsp")
   use("hrsh7th/cmp-path")
   use("hrsh7th/cmp-buffer")
@@ -87,6 +89,7 @@ require("packer").startup(function()
   use("hrsh7th/cmp-nvim-lua")
   use("hrsh7th/cmp-emoji")
   use("lukas-reineke/cmp-rg")
+
   use("ray-x/lsp_signature.nvim")
   use("saadparwaiz1/cmp_luasnip")
   use("L3MON4D3/LuaSnip") -- Snippets plugin
