@@ -190,9 +190,9 @@ vim.wo.signcolumn = "yes"
 
 -- Set font if running in firenvim
 if vim.g.started_by_firenvim then
-  vim.o.guifont = "Iosevka:h12"
+  vim.o.guifont = "Iosevka Medium:h12"
 else
-  vim.o.guifont = "Iosevka:h15"
+  vim.o.guifont = "Iosevka Medium:h16"
 end
 
 --Set colorscheme (order is important here)
