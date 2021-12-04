@@ -107,6 +107,7 @@ require("packer").startup(function()
   use("windwp/nvim-ts-autotag") -- Use treesitter to auto close and auto rename html tag
   use("windwp/nvim-autopairs") -- A super powerful autopair for Neovim. It supports multiple characters.
   use("numToStr/Comment.nvim") -- 🧠 💪 // Smart and powerful comment plugin for neovim.
+  use("vim-scripts/ReplaceWithRegister") -- Replace text with the contents of a register.
   use({
     "glacambre/firenvim",
     run = function()
@@ -388,7 +389,6 @@ require("which-key").setup({})
 
 -- My convenience mappings
 vim.api.nvim_set_keymap("n", "<leader>/", "<Cmd>nohlsearch<Bar>diffupdate<CR><C-L>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<leader>p", '"_dP', { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "<", "<gv", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", ">", ">gv", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "y", "ygv<Esc>", { noremap = true, silent = true })
