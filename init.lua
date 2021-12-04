@@ -735,12 +735,21 @@ cmp.setup({
   },
 })
 
--- signature_lsp
-require("lsp_signature").setup({
-  bind = true,
-  extra_trigger_chars = { "(", "[", "{", " ", "," },
-  hint_enable = false,
-  handler_opts = {
-    border = "none",
+-- Use buffer source for `/`
+cmp.setup.cmdline("/", {
+  sources = {
+    { name = "buffer" },
   },
 })
+
+-- Use cmdline & path source for ':'
+cmp.setup.cmdline(":", {
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    { name = "cmdline" },
+  }),
+})
+
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "", fsharp = "" } }))
