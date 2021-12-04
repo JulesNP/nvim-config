@@ -664,6 +664,9 @@ end
 
 local cmp = require("cmp")
 cmp.setup({
+  experimental = {
+    ghost_text = true,
+  },
   formatting = {
     format = lspkind.cmp_format({
       with_text = true,
