@@ -521,6 +521,7 @@ require("nvim-treesitter.configs").setup({
         ["if"] = "@function.inner",
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
+        ["uc"] = "@comment.outer",
       },
     },
     move = {
