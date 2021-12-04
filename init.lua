@@ -133,8 +133,8 @@ vim.o.autoread = true
 -- True color support
 vim.o.termguicolors = true
 
---Incremental live completion (note: this is now a default on master)
-vim.o.inccommand = "nosplit"
+--Incremental live completion with preview
+vim.o.inccommand = "split"
 
 -- Number stuff
 vim.wo.relativenumber = true
