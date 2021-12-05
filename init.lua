@@ -494,18 +494,12 @@ vim.api.nvim_set_keymap(
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
 require("nvim-treesitter.configs").setup({
+  ensure_installed = "maintained",
+  sync_install = true,
+  ignore_install = { "html" },
   highlight = {
-    enable = true, -- false will disable the whole extension
-    additional_vim_regex_highlighting = true,
-  },
-  incremental_selection = {
     enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn",
-      scope_incremental = "grc",
-      node_decremental = "grm",
-    },
+    additional_vim_regex_highlighting = false,
   },
   autotag = {
     enable = true,
@@ -517,11 +511,23 @@ require("nvim-treesitter.configs").setup({
     enable = true,
   },
   textobjects = {
+    lsp_interop = {
+      enable = true,
+      border = "none",
+      peek_definition_code = {
+        ["<leader>df"] = "@function.outer",
+        ["<leader>dF"] = "@class.outer",
+      },
+    },
     select = {
       enable = true,
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
+        ["a,"] = "@parameter.outer",
+        ["i,"] = "@parameter.inner",
+        ["ao"] = "@block.outer",
+        ["io"] = "@block.inner",
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
         ["ac"] = "@class.outer",
