@@ -581,8 +581,8 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
   buf_set_keymap("n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 
-  -- Don't use tsserver for formatting, we're using prettier via null-ls instead
-  if client.resolved_capabilities.document_formatting and client.name ~= "tsserver" then
+  -- Don't use tsserver or jsonls for formatting, we're using prettier via null-ls instead
+  if client.resolved_capabilities.document_formatting and client.name ~= "tsserver" and client.name ~= "jsonls" then
     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
     vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()") -- Format on save
     buf_set_keymap("n", "<space>fo", "<cmd>lua vim.lsp.buf.formatting_sync()<CR>", opts)
