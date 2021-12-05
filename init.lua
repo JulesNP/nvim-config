@@ -494,9 +494,6 @@ vim.api.nvim_set_keymap(
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
 require("nvim-treesitter.configs").setup({
-  ensure_installed = "maintained",
-  sync_install = false,
-  ignore_install = { "html" },
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
