@@ -581,7 +581,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
   buf_set_keymap("n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
   -- Only use null-ls for formatting
-  if client.name == "null-ls" then
+  if client.name == "null-ls" or client.name == "omnisharp" then
     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
     vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
     vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
