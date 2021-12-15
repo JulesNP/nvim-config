@@ -661,8 +661,6 @@ null_ls.config({
     }),
     null_ls.builtins.hover.dictionary,
   },
-})
-require("lspconfig")["null-ls"].setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
