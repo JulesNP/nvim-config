@@ -62,6 +62,7 @@ require("packer").startup(function()
   })
   -- UI to select things (files, grep results, open buffers...)
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
+  use({ "stevearc/dressing.nvim" }) -- Neovim plugin to improve the default vim.ui interfaces
   -- ✅ Highlight, list and search todo comments in your projects
   use({ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" })
   -- A blazing fast and easy to configure neovim statusline written in pure lua
