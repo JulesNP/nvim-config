@@ -573,12 +573,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
   buf_set_keymap("n", "<leader>D", "<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>", opts)
   buf_set_keymap("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  buf_set_keymap(
-    "n",
-    "<leader>ca",
-    "<cmd>lua require('telescope.builtin').lsp_code_actions({layout_strategy='bottom_pane',layout_config={height=15,prompt_position='bottom'}})<CR>",
-    opts
-  )
+  buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
   buf_set_keymap("v", "<leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
   buf_set_keymap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
   buf_set_keymap("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float(nil, { source = 'always' })<CR>", opts)
