@@ -121,6 +121,7 @@ require("packer").startup(function()
   use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } })
   use("folke/which-key.nvim") -- 💥 Create key bindings that stick.
   use("andymass/vim-matchup") -- even better % 👊 navigate and highlight matching words
+  use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
 end)
 
 -- Show title
@@ -306,6 +307,10 @@ vim.api.nvim_del_keymap("s", "f")
 vim.api.nvim_del_keymap("s", "F")
 vim.api.nvim_del_keymap("s", "t")
 vim.api.nvim_del_keymap("s", "T")
+
+-- trouble.nvim setup
+require("trouble").setup({})
+vim.api.nvim_set_keymap("n", "<leader>tt", "<Cmd>TroubleToggle<CR>", { noremap = true, silent = true })
 
 --Map blankline
 vim.g.indent_blankline_char = "┊"
