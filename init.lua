@@ -165,8 +165,6 @@ vim.opt.undofile = true
 vim.o.breakindent = true
 vim.o.smartindent = true
 vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = 2
 vim.opt.expandtab = true
 
 --Case insensitive searching UNLESS /C or capital in search
