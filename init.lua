@@ -23,10 +23,6 @@ vim.api.nvim_exec(
     autocmd BufWritePost init.lua PackerCompile
   augroup end
 
-  augroup Comment
-    autocmd FileType fsharp setlocal commentstring=//\ %s
-  augroup end
-
   augroup CursorLine
     au!
     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
