@@ -582,11 +582,13 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
   buf_set_keymap("n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 
+  if client.name == "fsautocomplete" then
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+  end
   if client.resolved_capabilities.document_formatting then
     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
-    if client.name ~= "fsautocomplete" then --Don't format on save with F#
-      vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()")
-    end
+    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()")
     buf_set_keymap("n", "<space>fo", "<cmd>lua vim.lsp.buf.formatting_seq_sync()<CR>", opts)
   end
   if client.resolved_capabilities.document_range_formatting then
