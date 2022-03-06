@@ -46,16 +46,8 @@ require("packer").startup(function()
 
   -- Themes
   use("gruvbox-community/gruvbox")
-  use("joshdick/onedark.vim")
-  use("overcache/NeoSolarized")
 
   use({ "kevinhwang91/nvim-bqf", ft = "qf" }) -- Better quickfix window in Neovim.
-  use({
-    "junegunn/fzf", -- 🌸 A command-line fuzzy finder
-    run = function()
-      vim.fn["fzf#install"]()
-    end,
-  })
   -- UI to select things (files, grep results, open buffers...)
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
   use({ "stevearc/dressing.nvim" }) -- Neovim plugin to improve the default vim.ui interfaces
@@ -105,12 +97,6 @@ require("packer").startup(function()
   use("windwp/nvim-autopairs") -- A super powerful autopair for Neovim. It supports multiple characters.
   use("numToStr/Comment.nvim") -- 🧠 💪 // Smart and powerful comment plugin for neovim.
   use("vim-scripts/ReplaceWithRegister") -- Replace text with the contents of a register.
-  use({
-    "glacambre/firenvim",
-    run = function()
-      vim.fn["firenvim#install"](0)
-    end,
-  })
   use("PhilT/vim-fsharp") -- Basic F# support for (Neo)Vim 🔷
   use("OrangeT/vim-csharp") -- Enhancement's to Vim's C-Sharp Functionality
   -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
