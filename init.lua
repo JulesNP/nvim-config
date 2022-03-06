@@ -166,12 +166,7 @@ vim.api.nvim_exec([[autocmd FileType help setlocal signcolumn=auto]], false)
 
 vim.wo.signcolumn = "yes"
 
--- Set font if running in firenvim
-if vim.g.started_by_firenvim then
-  vim.o.guifont = "Iosevka Medium:h12"
-else
-  vim.o.guifont = "Iosevka Medium:h16"
-end
+vim.o.guifont = "Iosevka Medium:h16"
 
 --Set colorscheme (order is important here)
 vim.g.gruvbox_italic = 1
