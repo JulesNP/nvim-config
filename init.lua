@@ -126,25 +126,22 @@ vim.wo.relativenumber = true
 vim.wo.number = true
 vim.o.numberwidth = 2
 
---Do not save when switching buffers (note: this is now a default on master)
-vim.o.hidden = true
-
 --Enable mouse mode
 vim.o.mouse = "a"
 
 -- Setting colorcolumn. This is set because of
 -- this (https://github.com/lukas-reineke/indent-blankline.nvim/issues/59)
 -- indent-blankline bug.
-vim.o.colorcolumn = "9999"
+vim.o.colorcolumn = "80"
 
 -- Keep 8 lines above/below cursor
 vim.o.scrolloff = 3
 
 --Save undo history
 vim.opt.undofile = true
+vim.o.updatetime = 250
 
 -- Indentation stuff
-vim.o.breakindent = true
 vim.o.smartindent = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 0
@@ -167,8 +164,6 @@ vim.api.nvim_exec([[autocmd TermOpen * setlocal nonumber norelativenumber nobufl
 -- Disable sign column in help
 vim.api.nvim_exec([[autocmd FileType help setlocal signcolumn=auto]], false)
 
---Decrease update time
-vim.o.updatetime = 250
 vim.wo.signcolumn = "yes"
 
 -- Set font if running in firenvim
@@ -179,10 +174,7 @@ else
 end
 
 --Set colorscheme (order is important here)
-vim.o.termguicolors = true
-vim.g.onedark_terminal_italics = 2
 vim.g.gruvbox_italic = 1
-vim.g.neosolarized_italic = 1
 vim.cmd([[colorscheme gruvbox]])
 
 -- Remove background colour if running on Windows Terminal (for transparency effect)
