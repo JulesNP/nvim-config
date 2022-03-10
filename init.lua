@@ -292,19 +292,6 @@ vim.g.indent_blankline_use_treesitter = true
 -- nvim-tree setup
 vim.g.nvim_tree_indent_markers = 1
 vim.api.nvim_set_keymap("n", "<leader>n", "<Cmd>NvimTreeToggle<CR>", { noremap = true, silent = true })
-vim.cmd([[
-let g:nvim_tree_window_picker_exclude = {
-  \   'filetype': [
-  \     'notify',
-  \     'packer',
-  \     'qf',
-  \     'vista'
-  \   ],
-  \   'buftype': [
-  \     'terminal'
-  \   ]
-  \ }
-]])
 require("nvim-tree").setup({
   update_focused_file = {
     enable = true,
