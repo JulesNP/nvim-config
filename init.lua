@@ -295,7 +295,6 @@ vim.g.indent_blankline_use_treesitter = true
 require("virt-column").setup()
 
 -- nvim-tree setup
-vim.g.nvim_tree_indent_markers = 1
 vim.api.nvim_set_keymap("n", "<leader>n", "<Cmd>NvimTreeToggle<CR>", { noremap = true, silent = true })
 require("nvim-tree").setup({
   update_focused_file = {
@@ -303,6 +302,11 @@ require("nvim-tree").setup({
   },
   filters = {
     dotfiles = true,
+  },
+  renderer = {
+    indent_markers = {
+      enable = true,
+    },
   },
 })
 
