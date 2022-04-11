@@ -100,6 +100,7 @@ require("packer").startup(function()
   use("vim-scripts/ReplaceWithRegister") -- Replace text with the contents of a register.
   use("PhilT/vim-fsharp") -- Basic F# support for (Neo)Vim 🔷
   use("OrangeT/vim-csharp") -- Enhancement's to Vim's C-Sharp Functionality
+  use("digitaltoad/vim-pug") -- Vim Pug (formerly Jade) template engine syntax highlighting and indention
   -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
   use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } })
   use("folke/which-key.nvim") -- 💥 Create key bindings that stick.
