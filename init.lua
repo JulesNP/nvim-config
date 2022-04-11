@@ -87,6 +87,7 @@ require("packer").startup(function()
   use("onsails/lspkind-nvim") -- vscode-like pictograms for neovim lsp completion items
   use("norcalli/nvim-colorizer.lua") -- The fastest Neovim colorizer
   use("dstein64/nvim-scrollview") -- 📍A Neovim plugin that displays interactive vertical scrollbars.
+  use("lukas-reineke/virt-column.nvim") -- Display a character as the colorcolumn.
   -- A file explorer tree for neovim written in lua
   use({ "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" })
   use("akinsho/toggleterm.nvim") -- A neovim lua plugin to help easily manage multiple terminal windows.
@@ -288,6 +289,9 @@ vim.g.indent_blankline_char_highlight = "LineNr"
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_use_treesitter = true
+
+-- virt-column setup
+require("virt-column").setup()
 
 -- nvim-tree setup
 vim.g.nvim_tree_indent_markers = 1
