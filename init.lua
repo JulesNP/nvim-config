@@ -57,6 +57,8 @@ require("packer").startup(function()
   use({ "hoob3rt/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } })
   -- A snazzy bufferline for Neovim
   use({ "akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons" })
+  -- Delete Neovim buffers without losing window layout
+  use("famiu/bufdelete.nvim")
   -- Add indentation guides even on blank lines
   use("lukas-reineke/indent-blankline.nvim")
   -- Add git related info in the signs columns and popups
@@ -130,11 +132,6 @@ vim.o.numberwidth = 2
 
 --Enable mouse mode
 vim.o.mouse = "a"
-
--- Setting colorcolumn. This is set because of
--- this (https://github.com/lukas-reineke/indent-blankline.nvim/issues/59)
--- indent-blankline bug.
-vim.o.colorcolumn = "80"
 
 -- Keep 8 lines above/below cursor
 vim.o.scrolloff = 3
@@ -221,6 +218,9 @@ require("bufferline").setup({
     error_diagnostic_selected = { gui = "bold" },
   },
   options = {
+    close_command = function(bufnum)
+      require("bufdelete").bufdelete(bufnum, true)
+    end,
     diagnostics = "nvim_lsp",
     diagnostics_indicator = function(count, level, _, _)
       local icon = level:match("error") and " " or " "
@@ -292,7 +292,7 @@ vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_use_treesitter = true
 
 -- virt-column setup
-require("virt-column").setup()
+require("virt-column").setup({ virtcolumn = "80" })
 
 -- nvim-tree setup
 vim.api.nvim_set_keymap("n", "<leader>n", "<Cmd>NvimTreeToggle<CR>", { noremap = true, silent = true })
