@@ -565,6 +565,9 @@ local on_attach = function(client, bufnr)
   end
 
   local opts = { noremap = true, silent = true }
+  buf_set_keymap("n", "gb", "<Cmd>lua require('telescope.builtin').git_bcommits()<CR>", opts)
+  buf_set_keymap("n", "gc", "<Cmd>lua require('telescope.builtin').git_commits()<CR>", opts)
+  buf_set_keymap("n", "gs", "<Cmd>lua require('telescope.builtin').git_status()<CR>", opts)
   buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
   buf_set_keymap("n", "gd", "<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>", opts)
   buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
