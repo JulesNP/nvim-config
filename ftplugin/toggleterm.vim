@@ -1,3 +1,3 @@
 lua << EOF
-require("virt-column").setup({ virtcolumn = "" })
+require("virt-column").setup_buffer({ virtcolumn = "" })
 EOF
