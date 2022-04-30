@@ -348,6 +348,8 @@ require("which-key").setup({})
 
 -- My convenience mappings
 vim.api.nvim_set_keymap("n", "<leader>/", "<Cmd>nohlsearch<Bar>diffupdate<CR><C-L>", { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap("v", "jk", "<Esc>", { noremap = true })
 vim.api.nvim_set_keymap("v", "<", "<gv", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", ">", ">gv", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("v", "y", "ygv<Esc>", { noremap = true, silent = true })
