@@ -81,12 +81,11 @@ require("packer").startup(function(use)
     -- Completion sources
     use("hrsh7th/cmp-nvim-lsp")
     use("hrsh7th/cmp-path")
-    use("hrsh7th/cmp-buffer")
     use("hrsh7th/cmp-calc")
     use("hrsh7th/cmp-cmdline")
     use("hrsh7th/cmp-nvim-lua")
     use("hrsh7th/cmp-emoji")
-    use("f3fora/cmp-spell")
+    use("quangnguyen30192/cmp-nvim-tags")
     use("lukas-reineke/cmp-rg")
 
     use("ray-x/lsp_signature.nvim")
@@ -112,6 +111,7 @@ require("packer").startup(function(use)
     use("digitaltoad/vim-pug") -- Vim Pug (formerly Jade) template engine syntax highlighting and indention
     -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua.
     use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } })
+    use("ludovicchabant/vim-gutentags") -- A Vim plugin that manages your tag files
     use("folke/which-key.nvim") -- 💥 Create key bindings that stick.
     use("andymass/vim-matchup") -- even better % 👊 navigate and highlight matching words
     use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
@@ -688,8 +688,7 @@ cmp.setup({
                 path = "[path]",
                 emoji = "[emoji]",
                 calc = "[calc]",
-                spell = "[spell]",
-                buffer = "[buffer]",
+                tags = "[tags]",
                 rg = "[rg]",
                 cmdline = "[cmd]",
             },
@@ -798,9 +797,8 @@ cmp.setup({
         { name = "path" },
         { name = "emoji" },
         { name = "calc" },
-        { name = "spell" },
-        { name = "buffer" },
         { name = "rg", priority = -1, keyword_length = 3, max_item_count = 10 },
+        { name = "tags", priority = -2, keyword_length = 3, max_item_count = 10 },
     },
 })
 
