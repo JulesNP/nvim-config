@@ -673,6 +673,11 @@ require("luasnip/loaders/from_vscode").lazy_load()
 -- lspkind setup
 local lspkind = require("lspkind")
 
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 local cmp = require("cmp")
 cmp.setup({
     experimental = {
@@ -711,7 +716,7 @@ cmp.setup({
             i = function(fallback)
                 if cmp.visible() then
                     cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-                elseif luasnip.expand_or_jumpable() then
+                elseif luasnip.expand_or_jumpable() and has_words_before() then
                     luasnip.expand_or_jump()
                 else
                     fallback()
