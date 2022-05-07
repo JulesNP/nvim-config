@@ -347,44 +347,39 @@ require("toggleterm").setup({
 require("which-key").setup({})
 
 -- My convenience mappings
-vim.api.nvim_set_keymap("n", "<leader>/", "<Cmd>nohlsearch<Bar>diffupdate<CR><C-L>", { noremap = true, silent = true })
-
-vim.api.nvim_set_keymap("v", "jk", "<Esc>", { noremap = true })
-vim.api.nvim_set_keymap("v", "kj", "<Esc>", { noremap = true })
-vim.api.nvim_set_keymap("v", "<", "<gv", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", ">", ">gv", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "y", "ygv<Esc>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<C-S-c>", "y", { noremap = true })
-
+vim.api.nvim_set_keymap("i", "<C-S-v>", "<C-r>+", { noremap = true })
 vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = true })
 vim.api.nvim_set_keymap("i", "kj", "<Esc>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<C-S-v>", "<C-r>+", { noremap = true })
 
-vim.api.nvim_set_keymap("t", "<C-q>", [[<C-\><C-n>]], { noremap = true })
-vim.api.nvim_set_keymap("t", "jk", [[<C-\><C-n>]], { noremap = true })
-vim.api.nvim_set_keymap("t", "kj", [[<C-\><C-n>]], { noremap = true })
-vim.api.nvim_set_keymap("t", "<C-h>", [[<C-\><C-n><C-W>h]], { noremap = true })
-vim.api.nvim_set_keymap("t", "<C-j>", [[<C-\><C-n><C-W>j]], { noremap = true })
-vim.api.nvim_set_keymap("t", "<C-k>", [[<C-\><C-n><C-W>k]], { noremap = true })
-vim.api.nvim_set_keymap("t", "<C-l>", [[<C-\><C-n><C-W>l]], { noremap = true })
-
+vim.api.nvim_set_keymap("n", "<C-S-v>", "a<C-r>+", { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-h>", [[<C-W>h]], { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-j>", [[<C-W>j]], { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-k>", [[<C-W>k]], { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-l>", [[<C-W>l]], { noremap = true })
-vim.api.nvim_set_keymap("n", "<C-S-v>", "a<C-r>+", { noremap = true })
-vim.api.nvim_set_keymap("n", "[b", "<Cmd>BufferLineCyclePrev<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "]b", "<Cmd>BufferLineCycleNext<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<b", "<Cmd>BufferLineMovePrev<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", ">b", "<Cmd>BufferLineMoveNext<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>/", "<Cmd>nohlsearch<Bar>diffupdate<CR><C-L>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>bd", "<Cmd>BufferLineSortByDirectory<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>be", "<Cmd>BufferLineSortByExtension<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>bp", "<Cmd>BufferLinePick<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>bx", "<Cmd>BufferLinePickClose<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>gg", "<Cmd>Git<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>gd", "<Cmd>Gdiffsplit<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>gg", "<Cmd>Git<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>gp", "<Cmd>Git push<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>gu", "<Cmd>Git pull<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", ">b", "<Cmd>BufferLineMoveNext<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "[b", "<Cmd>BufferLineCyclePrev<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "]b", "<Cmd>BufferLineCycleNext<CR>", { noremap = true })
+
+vim.api.nvim_set_keymap("t", "<C-h>", [[<C-\><C-n><C-W>h]], { noremap = true })
+vim.api.nvim_set_keymap("t", "<C-j>", [[<C-\><C-n><C-W>j]], { noremap = true })
+vim.api.nvim_set_keymap("t", "<C-k>", [[<C-\><C-n><C-W>k]], { noremap = true })
+vim.api.nvim_set_keymap("t", "<C-l>", [[<C-\><C-n><C-W>l]], { noremap = true })
+vim.api.nvim_set_keymap("t", "<C-q>", [[<C-\><C-n>]], { noremap = true })
+
+vim.api.nvim_set_keymap("v", "<", "<gv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<C-S-c>", "y", { noremap = true })
+vim.api.nvim_set_keymap("v", ">", ">gv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "y", "ygv<Esc>", { noremap = true, silent = true })
 
 -- Autopairs setup
 require("nvim-autopairs").setup({
