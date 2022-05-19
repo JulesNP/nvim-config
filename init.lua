@@ -146,6 +146,8 @@ vim.o.mouse = "a"
 -- Keep 8 lines above/below cursor
 vim.o.scrolloff = 3
 
+vim.opt.linebreak = true
+
 --Save undo history
 vim.opt.undofile = true
 
